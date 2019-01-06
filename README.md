@@ -1,12 +1,12 @@
-# PDF viewer
+# Drawing fractals at canvas using workers
 
 [![Travis][build-badge]][build]
 [![Storybook][storybook-badge]][storybook]
 
-  Project for view PDF files using the react-pdf. Project is published via gh-pages: https://embalex.github.io/pdfViewer/
+  - Mandelbrot set
 
-[build-badge]: https://img.shields.io/travis/embalex/pdfViewer/master.png?style=flat-square
-[build]: https://travis-ci.org/embalex/pdfViewer
+[build-badge]: https://img.shields.io/travis/embalex/workerCanvasFractal/master.png?style=flat-square
+[build]: https://travis-ci.org/embalex/workerCanvasFractal
 
 [storybook-badge]: https://github.com/storybooks/press/blob/master/badges/storybook.svg
-[storybook]: https://embalex.github.io/pdfViewer/
+[storybook]: https://embalex.github.io/workerCanvasFractal/

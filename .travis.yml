@@ -1,0 +1,23 @@
+sudo: false
+
+language: node_js
+
+node_js:
+  - stable
+
+branches:
+  only:
+    - master
+
+cache:
+  directories:
+    - node_modules
+
+script:
+  - npm run build-storybook
+
+deploy:
+  provider: pages
+  skip_cleanup: true;
+  github_token: $GITHUB_TOKEN
+  local-dir: .out
