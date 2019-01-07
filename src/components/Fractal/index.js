@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+import WebWorker from '../WebWorker';
+import testWorker from './workers/mandelbrot.worker';
+
 import { CanvasWrapper } from './Fractal.styled';
 
 
@@ -7,16 +10,21 @@ class Fractal extends Component {
   canvasRef = React.createRef();
 
   componentDidMount() {
-    const cRef = this.canvasRef.current.getContext('2d');
-
-    cRef.moveTo(10.5, 10.5);
-    cRef.lineTo(390.5, 10.5);
-    cRef.lineTo(390.5, 390.5);
-    cRef.lineTo(10.5, 390.5);
-    cRef.lineTo(10.5, 10.5);
-    cRef.strokeStyle = 'red';
-    cRef.stroke();
+    this.testSW = new WebWorker(testWorker);
+    this.testSW.addEventListener('message', this.drawCanvas);
+    this.testSW.postMessage({ height: 400, width: 400 });
   }
+
+  drawCanvas = (workersMessage) => {
+    if (workersMessage.data.error) { return; }
+
+    const cRef = this.canvasRef.current.getContext('2d');
+    workersMessage.data.forEach(({ method, x, y, color }) => {
+      cRef.fillStyle = color;
+      cRef[method](x, y, 1, 1);
+    });
+    cRef.stroke();
+  };
 
   render() {
     return (
