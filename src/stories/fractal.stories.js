@@ -2,8 +2,9 @@ import React from 'react';
 
 import { storiesOf } from '@storybook/react';
 
-import Demo from '../components/Demo';
+import { fractalType } from '../lib';
+import FractalView from '../components/FractalView';
 
 
-storiesOf('Fractal preview ', module)
-  .add('main', () => <Demo />);
+storiesOf('Fractals ', module)
+  .add('Mandelbrot set', () => <FractalView type={fractalType.mandelbrot} />);

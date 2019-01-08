@@ -5,7 +5,7 @@ module.exports = {
   },
   jest: function (config) {
     config.moduleNameMapper = {
-      '\\.worker.entry.js': '<rootDir>/__mocks__/workerMock.js',
+      '../../lib': '<rootDir>/__mocks__/FractalMock.js',
     };
     config.collectCoverageFrom = [
       'src/**/*.{js,jsx}',
