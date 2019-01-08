@@ -1,5 +1,4 @@
-import WebWorker from './WebWorker';
-import mandelbrotWorker from './workers/mandelbrot.worker';
+import MandelbrotWorker from './workers/mandelbrot.worker';
 
 
 class Fractal {
@@ -12,7 +11,7 @@ class Fractal {
       width,
     };
 
-    this.testSW = new WebWorker(mandelbrotWorker);
+    this.testSW = new MandelbrotWorker();
     this.testSW.addEventListener('message', onReady);
   }
 

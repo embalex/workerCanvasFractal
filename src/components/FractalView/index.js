@@ -25,15 +25,14 @@ class FractalView extends Component {
     if (workersMessage.data.error) { return; }
 
     const cRef = this.canvasRef.current.getContext('2d');
-    workersMessage.data.forEach(({ method, x, y, color }) => {
+    workersMessage.data.forEach(({ x, y, color }) => {
       cRef.fillStyle = color;
-      cRef[method](x, y, 1, 1);
+      cRef.fillRect(x, y, 1, 1);
     });
     cRef.stroke();
   };
 
   render() {
-    console.log(this.fractal);
     return (
       <CanvasWrapper>
         <canvas

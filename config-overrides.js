@@ -1,6 +1,15 @@
 module.exports = {
   webpack: function (config) {
     config.output.globalObject = 'this';
+    config.module.rules.push({
+      test: [/\.worker\.js$/, /\.subworker\.js$/],
+      use: {
+        loader: 'worker-loader',
+        options: {
+          inline: true,
+        },
+      },
+    });
     return config;
   },
   jest: function (config) {
