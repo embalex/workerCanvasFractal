@@ -16,12 +16,13 @@ class FractalMonoThread {
 
     this.testSW = new MandelbrotWorker();
     this.testSW.addEventListener('message', (value) => {
-      const calculateTime = this.calculateBlocker.stopCalculate();
-      console.log('Thread time -> ', calculateTime);
+      this.calculateBlocker.stopCalculate();
       onReady(value);
     });
     this.calculateBlocker = new CalculateBlocker();
   }
+
+  setOffset = () => {};
 
   recalculateFractal = () => {
     this.calculateBlocker.startCalculate();
@@ -30,6 +31,7 @@ class FractalMonoThread {
 
   moveLeft = () => {
     const { offsetRe, range } = this.fractalPosition;
+    if (this.calculateBlocker.isCalculating()) { return; }
 
     this.fractalPosition.offsetRe = offsetRe - range / 3;
     this.recalculateFractal();
@@ -37,6 +39,7 @@ class FractalMonoThread {
 
   moveRight = () => {
     const { offsetRe, range } = this.fractalPosition;
+    if (this.calculateBlocker.isCalculating()) { return; }
 
     this.fractalPosition.offsetRe = offsetRe + range / 3;
     this.recalculateFractal();
@@ -44,6 +47,7 @@ class FractalMonoThread {
 
   moveUp = () => {
     const { offsetIm, range } = this.fractalPosition;
+    if (this.calculateBlocker.isCalculating()) { return; }
 
     this.fractalPosition.offsetIm = offsetIm - range / 3;
     this.recalculateFractal();
@@ -51,6 +55,7 @@ class FractalMonoThread {
 
   moveDown = () => {
     const { offsetIm, range } = this.fractalPosition;
+    if (this.calculateBlocker.isCalculating()) { return; }
 
     this.fractalPosition.offsetIm = offsetIm + range / 3;
     this.recalculateFractal();
@@ -58,6 +63,7 @@ class FractalMonoThread {
 
   zoomIn = () => {
     const { range } = this.fractalPosition;
+    if (this.calculateBlocker.isCalculating()) { return; }
 
     this.fractalPosition.range = range / 10;
     this.recalculateFractal();
@@ -65,6 +71,7 @@ class FractalMonoThread {
 
   zoomOut = () => {
     const { range } = this.fractalPosition;
+    if (this.calculateBlocker.isCalculating()) { return; }
 
     this.fractalPosition.range = range * 10;
     this.recalculateFractal();

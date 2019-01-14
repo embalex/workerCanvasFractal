@@ -9,6 +9,7 @@ export const FractalMonoThread = jest.fn().mockImplementation(
     zoomIn: () => {},
     zoomOut: () => {},
     recalculateFractal: () => {},
+    setOffset: () => {},
   }),
 );
 
@@ -21,7 +22,8 @@ export const FractalMultiThread = jest.fn().mockImplementation(
     zoomIn: () => {},
     zoomOut: () => {},
     recalculateFractal: () => {},
+    setOffset: () => {},
   }),
 );
 
-export const fractalType = {...libFractalType};
+export const fractalType = { ...libFractalType };

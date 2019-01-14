@@ -6,7 +6,7 @@ self.addEventListener('message', ({ data }) => {
     height, width, offsetRe, offsetIm, range, offsetX, windowX, threadNumber,
   } = data;
   if (typeof threadNumber === 'number') { console.time(`WorkerTimer_${threadNumber}`); }
-  const MAX_ITERATION = 8000;
+  const MAX_ITERATION = 10000;
   const retArray = [];
   for (let col = offsetX; col < (offsetX + windowX); col += 1) {
     for (let row = 0; row < height; row += 1) {

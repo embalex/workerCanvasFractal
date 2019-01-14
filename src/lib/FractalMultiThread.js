@@ -20,6 +20,13 @@ class FractalMultiThread {
     this.calculateBlocker = new CalculateBlocker();
   }
 
+  setOffset = ({ offsetRe, offsetIm, range }) => {
+    this.fractalPosition.offsetRe = offsetRe;
+    this.fractalPosition.offsetIm = offsetIm;
+    this.fractalPosition.range = range;
+    this.recalculateFractal();
+  };
+
   getWorker = ({ subWidth, widthStep, threadNumber }) => {
     const subFractalPosition = { ...this.fractalPosition };
     subFractalPosition.offsetX = subWidth;
@@ -62,7 +69,7 @@ class FractalMultiThread {
 
   moveRight = () => {
     const { offsetRe, range } = this.fractalPosition;
-    if (this.calculateBlocker.isCalculate()) { return; }
+    if (this.calculateBlocker.isCalculating()) { return; }
 
     this.fractalPosition.offsetRe = offsetRe + range / 3;
     this.recalculateFractal();

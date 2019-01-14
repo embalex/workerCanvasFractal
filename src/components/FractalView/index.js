@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 
 import { FractalMonoThread, FractalMultiThread } from '../../lib';
 import ControlPanel from './ControlPanel';
+import PresetBar from './PresetsBar';
 
-import { fractalSize } from './FractalView.constants';
+import { presets, fractalSize } from './FractalView.constants';
 import { CanvasWrapper } from './FractalView.styled';
 
 
@@ -54,6 +55,7 @@ class FractalView extends Component {
           width={fractalSize.width}
           height={fractalSize.height}
         />
+        <PresetBar presets={presets} setPreset={this.fractal.setOffset} />
         <ControlPanel
           onLeft={this.fractal.moveLeft}
           onRight={this.fractal.moveRight}
