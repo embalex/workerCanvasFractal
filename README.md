@@ -5,6 +5,9 @@
 
   - Mandelbrot set
 
+  The demo was made using Storybook and gh-pages. It's available at https://embalex.github.io/workerCanvasFractal/ <br />
+  Using console, you can compare duration of fractal calculation by running measurements with different amount of threads 
+  
 [build-badge]: https://img.shields.io/travis/embalex/workerCanvasFractal/master.png?style=flat-square
 [build]: https://travis-ci.org/embalex/workerCanvasFractal
 
