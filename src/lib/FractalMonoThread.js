@@ -1,49 +1,52 @@
 import MandelbrotWorker from './workers/mandelbrot.worker';
 
 
-class Fractal {
+class FractalMonoThread {
   constructor({ height, width, onReady }) {
     this.fractalPosition = {
+      offsetRe: 0,
+      offsetIm: 0,
       offsetX: 0,
-      offsetY: 0,
+      windowX: width,
       range: 1,
       height,
       width,
     };
 
     this.testSW = new MandelbrotWorker();
-    this.testSW.addEventListener('message', onReady);
+    this.testSW.addEventListener('message', (value) => { console.timeEnd('singleThreadTimer'); onReady(value); });
   }
 
   recalculateFractal = () => {
+    console.time('singleThreadTimer');
     this.testSW.postMessage(this.fractalPosition);
   };
 
   moveLeft = () => {
-    const { offsetX, range } = this.fractalPosition;
+    const { offsetRe, range } = this.fractalPosition;
 
-    this.fractalPosition.offsetX = offsetX - range / 3;
+    this.fractalPosition.offsetRe = offsetRe - range / 3;
     this.recalculateFractal();
   };
 
   moveRight = () => {
-    const { offsetX, range } = this.fractalPosition;
+    const { offsetRe, range } = this.fractalPosition;
 
-    this.fractalPosition.offsetX = offsetX + range / 3;
+    this.fractalPosition.offsetRe = offsetRe + range / 3;
     this.recalculateFractal();
   };
 
   moveUp = () => {
-    const { offsetY, range } = this.fractalPosition;
+    const { offsetIm, range } = this.fractalPosition;
 
-    this.fractalPosition.offsetY = offsetY - range / 3;
+    this.fractalPosition.offsetIm = offsetIm - range / 3;
     this.recalculateFractal();
   };
 
   moveDown = () => {
-    const { offsetY, range } = this.fractalPosition;
+    const { offsetIm, range } = this.fractalPosition;
 
-    this.fractalPosition.offsetY = offsetY + range / 3;
+    this.fractalPosition.offsetIm = offsetIm + range / 3;
     this.recalculateFractal();
   };
 
@@ -62,4 +65,4 @@ class Fractal {
   };
 }
 
-export default Fractal;
+export default FractalMonoThread;

@@ -1,7 +1,9 @@
-import Fractal from './Fractal';
+import FractalMonoThread from './FractalMonoThread';
+import FractalMultiThread from './FractalMultiThread';
 import { fractalType } from './constants';
 
 export {
-  Fractal,
+  FractalMonoThread,
+  FractalMultiThread,
   fractalType,
 };

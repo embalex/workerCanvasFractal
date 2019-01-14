@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import { Fractal } from '../../lib';
+import { FractalMonoThread, FractalMultiThread } from '../../lib';
 import ControlPanel from './ControlPanel';
 
 import { fractalSize } from './FractalView.constants';
@@ -8,13 +9,26 @@ import { CanvasWrapper } from './FractalView.styled';
 
 
 class FractalView extends Component {
+  static propTypes = {
+    type: PropTypes.string.isRequired,
+    threads: PropTypes.number,
+  };
+
+  static defaultProps = {
+    threads: 1,
+  };
+
   canvasRef = React.createRef();
 
   constructor(props) {
     super(props);
 
     const { height, width } = fractalSize;
-    this.fractal = new Fractal({ width, height, onReady: this.drawCanvas });
+    this.fractal = props.threads === 1
+      ? new FractalMonoThread({ width, height, onReady: this.drawCanvas })
+      : new FractalMultiThread({
+        width, height, onReady: this.drawCanvas, threads: props.threads,
+      });
   }
 
   componentDidMount() {
