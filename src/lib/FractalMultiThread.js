@@ -1,4 +1,5 @@
 import MandelbrotWorker from './workers/mandelbrot.worker';
+import CalculateBlocker from './CalculateBlocker';
 
 class FractalMultiThread {
   constructor({
@@ -16,6 +17,7 @@ class FractalMultiThread {
 
     this.threads = threads;
     this.onReady = onReady;
+    this.calculateBlocker = new CalculateBlocker();
   }
 
   getWorker = ({ subWidth, widthStep, threadNumber }) => {
@@ -24,14 +26,13 @@ class FractalMultiThread {
     subFractalPosition.windowX = widthStep;
     return new Promise((resolve) => {
       const subFractal = new MandelbrotWorker();
-      subFractal.addEventListener('message', subFractalResult => resolve(subFractalResult));
+      subFractal.addEventListener('message', subFractalResult => resolve(subFractalResult.data));
       subFractal.postMessage({ threadNumber, ...subFractalPosition });
     });
   };
 
   recalculateFractal = () => {
-    console.group('New calculation profiling');
-    console.time('multithreadTimer');
+    this.calculateBlocker.startCalculate();
     const fractalPromiseArray = [];
     const widthStep = Math.floor(this.fractalPosition.width / this.threads);
     for (
@@ -45,17 +46,15 @@ class FractalMultiThread {
 
     Promise.all(fractalPromiseArray)
       .then((resultArray) => {
-        console.time('Copy data to single array: ');
-        const retValue = resultArray.reduce((acc, item) => ([...acc, ...item.data]), []);
-        console.timeEnd('Copy data to single array: ');
-        console.timeEnd('multithreadTimer');
-        console.groupEnd();
+        const retValue = [].concat(...resultArray);
+        this.calculateBlocker.stopCalculate();
         this.onReady({ data: retValue });
       });
   };
 
   moveLeft = () => {
     const { offsetRe, range } = this.fractalPosition;
+    if (this.calculateBlocker.isCalculating()) { return; }
 
     this.fractalPosition.offsetRe = offsetRe - range / 3;
     this.recalculateFractal();
@@ -63,6 +62,7 @@ class FractalMultiThread {
 
   moveRight = () => {
     const { offsetRe, range } = this.fractalPosition;
+    if (this.calculateBlocker.isCalculate()) { return; }
 
     this.fractalPosition.offsetRe = offsetRe + range / 3;
     this.recalculateFractal();
@@ -70,6 +70,7 @@ class FractalMultiThread {
 
   moveUp = () => {
     const { offsetIm, range } = this.fractalPosition;
+    if (this.calculateBlocker.isCalculating()) { return; }
 
     this.fractalPosition.offsetIm = offsetIm - range / 3;
     this.recalculateFractal();
@@ -77,6 +78,7 @@ class FractalMultiThread {
 
   moveDown = () => {
     const { offsetIm, range } = this.fractalPosition;
+    if (this.calculateBlocker.isCalculating()) { return; }
 
     this.fractalPosition.offsetIm = offsetIm + range / 3;
     this.recalculateFractal();
@@ -84,6 +86,7 @@ class FractalMultiThread {
 
   zoomIn = () => {
     const { range } = this.fractalPosition;
+    if (this.calculateBlocker.isCalculating()) { return; }
 
     this.fractalPosition.range = range / 10;
     this.recalculateFractal();
@@ -91,6 +94,7 @@ class FractalMultiThread {
 
   zoomOut = () => {
     const { range } = this.fractalPosition;
+    if (this.calculateBlocker.isCalculating()) { return; }
 
     this.fractalPosition.range = range * 10;
     this.recalculateFractal();

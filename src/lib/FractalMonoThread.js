@@ -1,4 +1,5 @@
 import MandelbrotWorker from './workers/mandelbrot.worker';
+import CalculateBlocker from './CalculateBlocker';
 
 
 class FractalMonoThread {
@@ -14,11 +15,16 @@ class FractalMonoThread {
     };
 
     this.testSW = new MandelbrotWorker();
-    this.testSW.addEventListener('message', (value) => { console.timeEnd('singleThreadTimer'); onReady(value); });
+    this.testSW.addEventListener('message', (value) => {
+      const calculateTime = this.calculateBlocker.stopCalculate();
+      console.log('Thread time -> ', calculateTime);
+      onReady(value);
+    });
+    this.calculateBlocker = new CalculateBlocker();
   }
 
   recalculateFractal = () => {
-    console.time('singleThreadTimer');
+    this.calculateBlocker.startCalculate();
     this.testSW.postMessage(this.fractalPosition);
   };
 
