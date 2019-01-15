@@ -29,3 +29,4 @@ export const FractalMultiThread = jest.fn().mockImplementation(
 export const presets = [];
 
 export const fractalType = { ...libFractalType };
+
