@@ -1,9 +1,11 @@
 import FractalMonoThread from './FractalMonoThread';
 import FractalMultiThread from './FractalMultiThread';
-import { fractalType } from './constants';
+import { fractalType, presets } from './constants';
+
 
 export {
   FractalMonoThread,
   FractalMultiThread,
   fractalType,
+  presets,
 };

@@ -1,6 +1,9 @@
 import MandelbrotWorker from './workers/mandelbrot.worker';
 import CalculateBlocker from './CalculateBlocker';
 
+import { parameters } from './constants';
+
+
 class FractalMultiThread {
   constructor({
     height, width, onReady, threads,
@@ -63,7 +66,7 @@ class FractalMultiThread {
     const { offsetRe, range } = this.fractalPosition;
     if (this.calculateBlocker.isCalculating()) { return; }
 
-    this.fractalPosition.offsetRe = offsetRe - range / 3;
+    this.fractalPosition.offsetRe = offsetRe - range / parameters.moveRatio;
     this.recalculateFractal();
   };
 
@@ -71,7 +74,7 @@ class FractalMultiThread {
     const { offsetRe, range } = this.fractalPosition;
     if (this.calculateBlocker.isCalculating()) { return; }
 
-    this.fractalPosition.offsetRe = offsetRe + range / 3;
+    this.fractalPosition.offsetRe = offsetRe + range / parameters.moveRatio;
     this.recalculateFractal();
   };
 
@@ -79,7 +82,7 @@ class FractalMultiThread {
     const { offsetIm, range } = this.fractalPosition;
     if (this.calculateBlocker.isCalculating()) { return; }
 
-    this.fractalPosition.offsetIm = offsetIm - range / 3;
+    this.fractalPosition.offsetIm = offsetIm - range / parameters.moveRatio;
     this.recalculateFractal();
   };
 
@@ -87,7 +90,7 @@ class FractalMultiThread {
     const { offsetIm, range } = this.fractalPosition;
     if (this.calculateBlocker.isCalculating()) { return; }
 
-    this.fractalPosition.offsetIm = offsetIm + range / 3;
+    this.fractalPosition.offsetIm = offsetIm + range / parameters.moveRatio;
     this.recalculateFractal();
   };
 
@@ -95,7 +98,7 @@ class FractalMultiThread {
     const { range } = this.fractalPosition;
     if (this.calculateBlocker.isCalculating()) { return; }
 
-    this.fractalPosition.range = range / 10;
+    this.fractalPosition.range = range / parameters.zoomRatio;
     this.recalculateFractal();
   };
 
@@ -103,7 +106,7 @@ class FractalMultiThread {
     const { range } = this.fractalPosition;
     if (this.calculateBlocker.isCalculating()) { return; }
 
-    this.fractalPosition.range = range * 10;
+    this.fractalPosition.range = range * parameters.zoomRatio;
     this.recalculateFractal();
   };
 }

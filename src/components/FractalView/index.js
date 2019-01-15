@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { FractalMonoThread, FractalMultiThread } from '../../lib';
+import { FractalMonoThread, FractalMultiThread, presets } from '../../lib';
 import ControlPanel from './ControlPanel';
 import PresetBar from './PresetsBar';
 
-import { presets, fractalSize } from './FractalView.constants';
+import { fractalSize } from './FractalView.constants';
 import { CanvasWrapper } from './FractalView.styled';
 
 

@@ -1,6 +1,8 @@
 import MandelbrotWorker from './workers/mandelbrot.worker';
 import CalculateBlocker from './CalculateBlocker';
 
+import { parameters } from './constants';
+
 
 class FractalMonoThread {
   constructor({ height, width, onReady }) {
@@ -22,7 +24,12 @@ class FractalMonoThread {
     this.calculateBlocker = new CalculateBlocker();
   }
 
-  setOffset = () => {};
+  setOffset = ({ offsetRe, offsetIm, range }) => {
+    this.fractalPosition.offsetRe = offsetRe;
+    this.fractalPosition.offsetIm = offsetIm;
+    this.fractalPosition.range = range;
+    this.recalculateFractal();
+  };
 
   recalculateFractal = () => {
     this.calculateBlocker.startCalculate();
@@ -33,7 +40,7 @@ class FractalMonoThread {
     const { offsetRe, range } = this.fractalPosition;
     if (this.calculateBlocker.isCalculating()) { return; }
 
-    this.fractalPosition.offsetRe = offsetRe - range / 3;
+    this.fractalPosition.offsetRe = offsetRe - range / parameters.moveRatio;
     this.recalculateFractal();
   };
 
@@ -41,7 +48,7 @@ class FractalMonoThread {
     const { offsetRe, range } = this.fractalPosition;
     if (this.calculateBlocker.isCalculating()) { return; }
 
-    this.fractalPosition.offsetRe = offsetRe + range / 3;
+    this.fractalPosition.offsetRe = offsetRe + range / parameters.moveRatio;
     this.recalculateFractal();
   };
 
@@ -49,7 +56,7 @@ class FractalMonoThread {
     const { offsetIm, range } = this.fractalPosition;
     if (this.calculateBlocker.isCalculating()) { return; }
 
-    this.fractalPosition.offsetIm = offsetIm - range / 3;
+    this.fractalPosition.offsetIm = offsetIm - range / parameters.moveRatio;
     this.recalculateFractal();
   };
 
@@ -57,7 +64,7 @@ class FractalMonoThread {
     const { offsetIm, range } = this.fractalPosition;
     if (this.calculateBlocker.isCalculating()) { return; }
 
-    this.fractalPosition.offsetIm = offsetIm + range / 3;
+    this.fractalPosition.offsetIm = offsetIm + range / parameters.moveRatio;
     this.recalculateFractal();
   };
 
@@ -65,7 +72,7 @@ class FractalMonoThread {
     const { range } = this.fractalPosition;
     if (this.calculateBlocker.isCalculating()) { return; }
 
-    this.fractalPosition.range = range / 10;
+    this.fractalPosition.range = range / parameters.zoomRatio;
     this.recalculateFractal();
   };
 
@@ -73,7 +80,7 @@ class FractalMonoThread {
     const { range } = this.fractalPosition;
     if (this.calculateBlocker.isCalculating()) { return; }
 
-    this.fractalPosition.range = range * 10;
+    this.fractalPosition.range = range * parameters.zoomRatio;
     this.recalculateFractal();
   };
 }
