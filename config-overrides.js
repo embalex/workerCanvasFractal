@@ -1,11 +1,20 @@
 module.exports = {
   webpack: function (config) {
     config.output.globalObject = 'this';
+    config.module.rules.push({
+      test: [/\.worker\.js$/, /\.subworker\.js$/],
+      use: {
+        loader: 'worker-loader',
+        options: {
+          inline: true,
+        },
+      },
+    });
     return config;
   },
   jest: function (config) {
     config.moduleNameMapper = {
-      '\\.worker.entry.js': '<rootDir>/__mocks__/workerMock.js',
+      '../../lib': '<rootDir>/__mocks__/FractalMock.js',
     };
     config.collectCoverageFrom = [
       'src/**/*.{js,jsx}',
